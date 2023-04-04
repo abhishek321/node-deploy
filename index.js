@@ -17,6 +17,6 @@ app.use('/users',userRouter.router);
 app.use('*',(req,res)=>{
     res.sendFile(path.resolve(__dirname,process.env.PUBLIC_DIR,'index.html'));
 });
-app.listen(4242,(req,res)=>{
-    console.log('Server run on http://localhost:4242')
+app.listen(process.env.PORT,(req,res)=>{
+    console.log('Server run on http://localhost:'+process.env.PORT);
 });
