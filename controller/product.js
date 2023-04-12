@@ -11,7 +11,7 @@ exports.getAll = async (req, res) => {
 exports.getSingle = async (req, res) => {
   try {
     const id = req.params.id;
-    const prd = await Product.findById(id);
+    const prd = await Product.findById(id); 
     res.json(prd);
   } catch (error) {
     console.log(error.message);
