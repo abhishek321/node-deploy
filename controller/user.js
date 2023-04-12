@@ -1,24 +1,29 @@
-const fs = require("fs");
-const path = require("path");
-const data = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "../public/users.json"), "utf-8")
-);
-const users = data.users;
-exports.getAll = (req, res) => {
-  res.json(users);
+const bcrypt = require('bcryptjs');
+const { User } = require('../models/user');
+exports.getAll = async (req, res) => {
+  res.json(await User.find());
 };
-exports.get = (req, res) => {
-  const id = +req.params.id;
-  const user = users.find((u) => u.id === id);
+exports.get = async (req, res) => {
+  const id = req.params.id;
+  const user = await User.findById(id);
   if (user !== undefined) {
     res.json(user);
   } else {
     res.json({ status: 0, message: "record not found" });
   }
 };
-exports.create = (req, res) => {
-  users.push(req.body);
-  res.json(users);
+exports.create = async (req, res) => {
+  try {
+    const salt = bcrypt.genSaltSync(10);
+    const pass = bcrypt.hashSync(req.body.password, salt);
+    const user = new User(req.body);
+    user.password = pass;
+    let docUser = await user.save();
+    res.json(docUser);
+  } catch (error) {
+    res.status(400).json({ status: 0, message: "Some exception getting", error })
+  }
+
 };
 
 exports.replaceIdData = (req, res) => {

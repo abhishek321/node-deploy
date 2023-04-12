@@ -10,7 +10,7 @@ const cors = require('cors');
 app.use(express.json());
 app.use(cors());
 app.use(express.static(path.resolve(__dirname,process.env.PUBLIC_DIR)));
-app.use(logger('default'));
+app.use(logger('combined'));
 
 app.use('/products',productRouter.router);
 app.use('/users',userRouter.router);
