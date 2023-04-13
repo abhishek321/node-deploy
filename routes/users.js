@@ -6,7 +6,10 @@ router
 .put('/:id',userController.replaceIdData)
 .patch('/:id',userController.updateIdData)
 .get('/',userController.getAll)
+.post('/login',userController.login)
+.get('/one',userController.getOne)
 .get('/:id',userController.get)
 .delete('/:id',userController.delete)
+
 
 exports.router = router;
